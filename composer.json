@@ -1,0 +1,21 @@
+{
+    "name": "sunnnnn/workerman-win",
+    "description": "workerman for win",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sunnnnn",
+            "email": "263021000@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Workerman\\": "workerman/",
+            "GatewayWorker\\": "gateway/"
+        }
+    }
+}
