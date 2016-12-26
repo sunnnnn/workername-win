@@ -15,7 +15,8 @@
     "autoload": {
         "psr-4": {
             "Workerman\\": "workerman/",
-            "GatewayWorker\\": "gateway/"
+            "GatewayWorker\\": "gateway/",
+            "sunnnnn\\wm\\": "events/",
         }
     }
 }
