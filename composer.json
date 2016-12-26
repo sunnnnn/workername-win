@@ -16,7 +16,7 @@
         "psr-4": {
             "Workerman\\": "workerman/",
             "GatewayWorker\\": "gateway/",
-            "sunnnnn\\wm\\": "events/",
+            "sunnnnn\\wm\\": "events/"
         }
     }
 }
