@@ -1,5 +1,6 @@
 <?php
-namespace sunnnnn\wm\events;
+namespace sunnnnn\workerman;
+
 use \GatewayWorker\Lib\Gateway;
 
 /**

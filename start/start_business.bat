@@ -1,0 +1,1 @@
+php index.php /wm/start/business

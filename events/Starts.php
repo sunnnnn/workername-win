@@ -1,5 +1,5 @@
 <?php
-namespace sunnnnn\wm\events;
+namespace sunnnnn\workerman;
 
 use \Workerman\Worker;
 use \GatewayWorker\Gateway;
@@ -10,7 +10,7 @@ class Starts{
 	protected $frame = ['tp5'];
 	protected $cfg;
 	
-	public function __construct($frame, $config = []){
+	public function __construct($frame = '', $config = []){
 		$frame = empty($frame) ? 'tp5' : trim($frame);
 		if(!in_array($frame, $this->frame)){
 			exit('this frame is not support !');
@@ -32,13 +32,13 @@ class Starts{
 		}
 	}
 	
-	public function startRegister(){
+	public function register(){
 		// register 必须是text协议
 		$register = new Register('text://'.$this->cfg['register_address']);
 		Worker::runAll();
 	}
 	
-	public function startGateway(){
+	public function gateway(){
 		// gateway 进程，这里使用Text协议，可以用telnet测试
 		$gateway = new Gateway($this->cfg['gateway_socket']);
 		// gateway名称，status方便查看
@@ -51,7 +51,7 @@ class Starts{
 		// 则一般会使用4000 4001 4002 4003 4个端口作为内部通讯端口
 		$gateway->startPort = $this->cfg['gateway_startPort'];
 		// 服务注册地址
-		$gateway->registerAddress = $this->cfg['register_address'];
+		$gateway->registerAddress = $this->cfg['gateway_registerAddress'];
 		// 心跳间隔,0为不发送心跳
 		$gateway->pingInterval = $this->cfg['gateway_pingInterval'];
 		//客户端连续$pingNotResponseLimit次$pingInterval时间内不回应心跳则断开链接。 
@@ -62,7 +62,7 @@ class Starts{
 		Worker::runAll();
 	}
 	
-	public function startBusiness(){
+	public function business(){
 		// bussinessWorker 进程
 		$worker = new BusinessWorker();
 		// worker名称
@@ -70,7 +70,21 @@ class Starts{
 		// bussinessWorker进程数量
 		$worker->count = $this->cfg['business_count'];
 		// 服务注册地址
-		$worker->registerAddress = $this->cfg['register_address'];
+		$worker->registerAddress = $this->cfg['business_registerAddress'];
+	
+		$worker->eventHandler = 'MyEvent';
+		Worker::runAll();
+	}
+	
+	public function setBusiness($worker){
+		// worker名称
+		$worker->name = $this->cfg['business_name'];
+		// bussinessWorker进程数量
+		$worker->count = $this->cfg['business_count'];
+		// 服务注册地址
+		$worker->registerAddress = $this->cfg['business_registerAddress'];
+		
+		$worker->eventHandler = 'MyEvent';
 		Worker::runAll();
 	}
 }
